@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="pt-BR">
- <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260821-05-d0038b4","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Canva Sans":"YAFLd8sKbwc,2","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAHO2VMiyZo,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAEul-FRQw4,0","Georgia":"YAGzXkO0pEM,0","Helvetica Neue":"YAFcf6CtJfI,0","Impact":"YAFcfnjI7Vk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Libre Baskerville":"YACgEUFdPdA,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YADLjI9qxTA,0","Nunito":"YACgEX8C5Gg,0","Oleo Script":"YACgEQQ14jI,0","Phantom Sans":"YAHO2E8Pb88,0","Playfair Display":"YACgEYmuCJE,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YADWjpfPmdk,0","Raleway":"YACgEVg3xZg,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Ubuntu":"YACgERDU--Q,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YADlN8CFZ8Q,0","ui-sans-serif":"YACkoN-xg4g,0"}}');</script><script src="/_sdk/50d846425a1e5082.telemetry_sdk.js" integrity="sha512-Otbex+ztlVbcEGql0rXGd/3E3ee/hqAntg6DeuUEMG6pIPbXGOSvZbFZVzknAXi1tH/itQ+ijEhOTr2aWj6CXg=="></script>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mural Coletivo</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/b3bf9e8ac58e6ad6.data_sdk.js" integrity="sha512-otc1u9NYq9Ms5Jt//7vmhrrqR5CLPr8Jdgs6741gqniClfLMcfmC+jK/cKuQdhLv6G0esJ/FzaMS9tv0T/vj/Q=="></script>
-  <script src="/_sdk/a27879be4562f807.resizing_sdk.js" type="text/javascript" integrity="sha512-trcxRwz+QLrzK0Dqg95xqVRryR7WtWui2YopXyzOIr3WMde3j/xCRgT63/b/EAg7klDsAOuHzoRgoryhwm8QFw=="></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
   <style>
     :root {
@@ -22,78 +20,7 @@
     * { box-sizing: border-box; }
 
     body {
-<!-- Bloco de Envio de Arquivos (Sem Login) -->
-<div style="max-width: 500px; margin: 40px auto; padding: 25px; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: sans-serif; text-align: left;">
-  <h3 style="margin-top: 0; color: #333;">Envio de Trabalho</h3>
-  
-  <form id="uploadForm">
-    <label style="font-weight: bold; color: #555; display: block; margin-bottom: 8px;">
-      Selecione o arquivo:
-    </label>
-    <input type="file" id="arquivoInput" required style="display: block; width: 100%; margin-bottom: 15px;">
-    
-    <button type="submit" id="btnEnviar" style="width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-      Enviar Arquivo
-    </button>
-  </form>
-  
-  <p id="msgStatus" style="margin-top: 15px; font-weight: bold;"></p>
-</div>
-
-<script>
-  const WEB_APP_URL = "1Oi0-H2dXCj4HY4Bkn-y-a_R09P7jpS1N";
-
-  document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const input = document.getElementById('arquivoInput');
-    const status = document.getElementById('msgStatus');
-    const btn = document.getElementById('btnEnviar');
-    const file = input.files[0];
-
-    if (!file) return;
-
-    status.style.color = "#555";
-    status.innerText = "Enviando arquivo para o Drive...";
-    btn.disabled = true;
-
-    const reader = new FileReader();
-    reader.onload = function() {
-      const payload = {
-        fileName: file.name,
-        mimeType: file.type,
-        fileData: reader.result
-      };
-
-      fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "success") {
-          status.style.color = "green";
-          status.innerText = "✓ Arquivo enviado com sucesso!";
-          input.value = "";
-        } else {
-          status.style.color = "red";
-          status.innerText = "Erro: " + data.message;
-        }
-      })
-      .catch(err => {
-        status.style.color = "red";
-        status.innerText = "Erro ao conectar com o Drive.";
-      })
-      .finally(() => {
-        btn.disabled = false;
-      });
-    };
-
-    reader.readAsDataURL(file);
-  });
-</script>     
-
- width: 100%;
+      width: 100%;
       margin: 0;
       overflow-x: hidden;
       font-family: "DM Sans", sans-serif;
@@ -103,7 +30,7 @@
     .mural-shell {
       position: relative;
       width: 100%;
-      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      min-height: 100vh;
       overflow: hidden;
       background:
         radial-gradient(circle at 8% 6%, rgba(203, 4, 51, .14), transparent 18rem),
@@ -236,6 +163,8 @@
     .submit-button {
       border: 2px solid var(--ink);
       box-shadow: 4px 4px 0 var(--ink);
+      background: #cb0433;
+      color: #ffffff;
       transition: transform .18s, box-shadow .18s, filter .18s;
     }
 
@@ -351,10 +280,11 @@
       min-height: 24px;
       font-size: .9rem;
       line-height: 1.4;
+      font-weight: bold;
     }
 
     .notice.error { color: #cb0433; }
-    .notice.success { color: #65079c; }
+    .notice.success { color: #28a745; }
 
     @keyframes poster-in {
       from { opacity: 0; transform: translateY(22px) rotate(0deg); }
@@ -367,36 +297,23 @@
     }
   </style>
  </head>
- <body data-template-id="__page-root">
+ <body>
   <div class="mural-shell">
    <div class="street-grid"></div>
    <div class="paint-mark mark-one"></div>
    <div class="paint-mark mark-two"></div>
-   <div class="camera-doodle camera-doodle-one" aria-hidden="true">
-    <svg viewbox="0 0 120 82" role="presentation">
-     <path d="M18 25h20l7-10h29l7 10h21a7 7 0 0 1 7 7v32a7 7 0 0 1-7 7H18a7 7 0 0 1-7-7V32a7 7 0 0 1 7-7Z" /><circle cx="60" cy="47" r="18" /><circle cx="60" cy="47" r="8" /><path d="M22 36h14" />
-    </svg>
-   </div>
-   <div class="camera-doodle camera-doodle-two" aria-hidden="true">
-    <svg viewbox="0 0 120 82" role="presentation">
-     <path d="M13 30h25l6-9h32l6 9h25a5 5 0 0 1 5 5v29a5 5 0 0 1-5 5H13a5 5 0 0 1-5-5V35a5 5 0 0 1 5-5Z" /><circle cx="64" cy="50" r="15" /><circle cx="64" cy="50" r="6" /><path d="M18 39h15M93 39h7" />
-    </svg>
-   </div>
-   <div class="camera-doodle camera-doodle-three" aria-hidden="true">
-    <svg viewbox="0 0 120 82" role="presentation">
-     <path d="M16 27h24l6-10h27l6 10h25a6 6 0 0 1 6 6v31a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6V33a6 6 0 0 1 6-6Z" /><circle cx="60" cy="49" r="19" /><circle cx="60" cy="49" r="9" /><path d="M22 39h13" />
-    </svg>
-   </div>
+   
    <div class="top-rule"></div>
+   
    <header class="relative z-10 w-full px-5 pt-10 sm:px-8 lg:px-12">
     <div class="mx-auto max-w-6xl">
      <div class="flex flex-col gap-5 border-b-2 border-[#0e1217] pb-8 sm:flex-row sm:items-end sm:justify-between">
       <div class="max-w-4xl">
-       <div data-template-id="course-tag" class="canva-tag mb-4 inline-flex items-center gap-2 px-3 py-1 text-xs font-bold uppercase tracking-[.14em]">
-        <i data-lucide="aperture" class="h-4 w-4"></i> <span data-template-id="course-tag-text" class="canva-text"></span>
+       <div class="mb-4 inline-flex items-center gap-2 px-3 py-1 text-xs font-bold uppercase tracking-[.14em] bg-white border border-[#0e1217]">
+        <i data-lucide="aperture" class="h-4 w-4"></i> <span>Mural Coletivo</span>
        </div>
-       <h1 data-template-id="album-title" class="canva-text urban-heading font-bold"></h1>
-       <p data-template-id="album-subtitle" class="canva-text mt-4 max-w-3xl leading-relaxed"></p>
+       <h1 class="urban-heading text-3xl sm:text-5xl font-bold">Galeria de Trabalhos</h1>
+       <p class="mt-4 max-w-3xl leading-relaxed text-gray-700">Envie sua fotografia ou projeto para compor o mural.</p>
       </div>
       <div class="flex items-center gap-3 pb-1 font-mono text-xs font-bold uppercase tracking-wider text-[#0e1217]">
        <i data-lucide="images" class="h-5 w-5 text-[#cb0433]"></i> <span id="photo-count" aria-live="polite">0 fotografias</span>
@@ -404,76 +321,92 @@
      </div>
     </div>
    </header>
+
    <main class="relative z-10 w-full px-5 pb-16 pt-10 sm:px-8 lg:px-12">
     <div class="mx-auto max-w-6xl">
-     <section data-template-id="upload-section" class="canva-panel upload-panel mx-auto max-w-4xl p-6 sm:p-8" aria-labelledby="upload-title">
+     <section class="upload-panel mx-auto max-w-4xl p-6 sm:p-8 bg-white" aria-labelledby="upload-title">
       <span class="sticker" aria-hidden="true"></span>
       <div class="grid gap-8 lg:grid-cols-[.88fr_1.12fr] lg:gap-12">
        <div>
-        <p data-template-id="upload-kicker" class="canva-text mb-3 font-mono text-xs font-bold uppercase tracking-[.16em]"></p>
-        <h2 data-template-id="upload-title" class="canva-text urban-heading font-bold"></h2>
-        <p data-template-id="upload-description" class="canva-text mt-4 leading-relaxed"></p>
+        <p class="mb-3 font-mono text-xs font-bold uppercase tracking-[.16em] text-[#cb0433]">Participação</p>
+        <h2 id="upload-title" class="urban-heading text-2xl font-bold">Enviar Trabalho</h2>
+        <p class="mt-4 leading-relaxed text-sm text-gray-600">Preencha seu nome e selecione a foto para envio direto ao Drive da disciplina.</p>
        </div>
+       
        <form id="photo-form" novalidate>
         <div class="grid gap-4">
          <div>
-          <label data-template-id="author-label" class="canva-text mb-2 block text-sm font-semibold" for="author-name"></label> <input id="author-name" class="input-field px-4 py-3" type="text" maxlength="80" autocomplete="name">
+          <label class="mb-2 block text-sm font-semibold" for="author-name">Nome do Aluno / Autor:</label> 
+          <input id="author-name" class="input-field px-4 py-3" type="text" maxlength="80" placeholder="Ex: Maria Silva" required>
          </div>
          <div>
-          <span data-template-id="photo-label" class="canva-text mb-2 block text-sm font-semibold"></span> <label class="file-picker" for="photo-file"> <input id="photo-file" type="file" accept="image/*"> <span class="grid h-9 w-9 shrink-0 place-items-center bg-[#cb0433] text-[#fefefe]"> <i data-lucide="upload-cloud" class="h-5 w-5"></i> </span> <span id="file-name" class="truncate text-sm text-[#0e1217]/65">Selecionar uma imagem</span> </label>
-         </div><button data-template-id="publish-button" class="canva-button submit-button mt-1 inline-flex items-center justify-center gap-2 px-5 py-3 font-bold" type="submit"> <i data-lucide="plus-circle" class="h-5 w-5"></i> <span data-template-id="publish-button-text" class="canva-text"></span> </button>
+          <span class="mb-2 block text-sm font-semibold">Fotografia / Imagem:</span> 
+          <label class="file-picker" for="photo-file"> 
+            <input id="photo-file" type="file" accept="image/*" required> 
+            <span class="grid h-9 w-9 shrink-0 place-items-center bg-[#cb0433] text-[#fefefe]"> 
+              <i data-lucide="upload-cloud" class="h-5 w-5"></i> 
+            </span> 
+            <span id="file-name" class="truncate text-sm text-[#0e1217]/65">Selecionar uma imagem</span> 
+          </label>
+         </div>
+         <button id="submit-btn" class="submit-button mt-1 inline-flex items-center justify-center gap-2 px-5 py-3 font-bold" type="submit"> 
+           <i data-lucide="plus-circle" class="h-5 w-5"></i> <span>Enviar para o Mural</span> 
+         </button>
          <p id="form-notice" class="notice" role="status" aria-live="polite"></p>
-         <p data-template-id="upload-note" class="canva-text text-xs leading-relaxed"></p>
         </div>
        </form>
       </div>
      </section>
+
      <section class="mt-16" aria-labelledby="gallery-title">
       <div class="mb-7 flex flex-wrap items-end gap-4">
        <div>
-        <p data-template-id="gallery-kicker" class="canva-text mb-2 font-mono text-xs font-bold uppercase tracking-[.16em]"></p>
-        <h2 data-template-id="gallery-title" class="canva-text urban-heading font-bold"></h2>
+        <p class="mb-2 font-mono text-xs font-bold uppercase tracking-[.16em] text-[#65079c]">Exibição</p>
+        <h2 id="gallery-title" class="urban-heading text-2xl font-bold">Mural de Fotos</h2>
        </div>
        <div class="wall-divider mb-2 min-w-24 flex-1"></div>
       </div>
+      
       <div id="empty-state" class="mx-auto flex max-w-md flex-col items-center border-2 border-dashed border-[#0e1217] bg-[#fefefe]/75 px-7 py-12 text-center">
        <div class="empty-illustration mb-5">
         <i data-lucide="camera" class="h-8 w-8"></i>
        </div>
-       <h3 data-template-id="empty-title" class="canva-text font-bold"></h3>
-       <p data-template-id="empty-description" class="canva-text mt-2 leading-relaxed"></p>
+       <h3 class="font-bold">Nenhum envio nesta sessão ainda</h3>
+       <p class="mt-2 text-sm text-gray-600">Seja o primeiro a enviar uma fotografia acima!</p>
       </div>
+      
       <div id="gallery-grid" class="grid grid-cols-1 gap-x-7 gap-y-11 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
      </section>
     </div>
    </main>
-   <footer class="relative z-10 w-full border-t-2 border-[#0e1217] px-5 py-6 sm:px-8 lg:px-12">
-    <p data-template-id="footer-text" class="canva-text mx-auto max-w-6xl text-center font-mono text-xs tracking-wide"></p>
+
+   <footer class="relative z-10 w-full border-t-2 border-[#0e1217] px-5 py-6 sm:px-8 lg:px-12 bg-white">
+    <p class="mx-auto max-w-6xl text-center font-mono text-xs tracking-wide">Mural de Trabalhos — Envio Direto</p>
    </footer>
   </div>
+
+  <!-- Template do Card de Foto -->
   <template id="photo-card-template">
-   <article data-template-id="photo-card" class="canva-card poster">
+   <article class="poster">
     <div class="photo-frame">
-     <img class="uploaded-preview hidden" loading="lazy">
-     <div data-template-id="photo-unavailable" class="canva-text photo-unavailable hidden"></div>
+     <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
     </div>
     <div class="author-signature dynamic-author"></div>
     <div class="photo-date dynamic-date"></div>
    </article>
   </template>
-  <script src="/_sdk/f344579cd2b2cf70.editing_sdk.js" integrity="sha512-bzdgmfJ/pl/acJqgk+LGvYwJbF03Y2d6f4oZHD96WjqTnvQUZBGVAQkTDRz+fyIMjVc+AXkpwFXqDYLeHDMLSw=="></script>
-  <script>
-    const records = new Map();
-    const activePreviewUrls = new Map();
-    let sdkReady = false;
-    let currentCount = 0;
 
+  <script>
+    // ⚠️ SUBSTITUA COM A SUA URL GERADA NO GOOGLE APPS SCRIPT (/exec)
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYufsKTpSabdM_F9CaBp3OjjSg6Ltypc9gqjuu7IS6tCjoRYOK5PAbE54zQI8Bnvjz/exec";
+
+    let photoCount = 0;
     const form = document.getElementById('photo-form');
     const authorInput = document.getElementById('author-name');
     const fileInput = document.getElementById('photo-file');
     const fileName = document.getElementById('file-name');
     const notice = document.getElementById('form-notice');
-    const submitButton = form.querySelector('button[type="submit"]');
+    const submitBtn = document.getElementById('submit-btn');
     const grid = document.getElementById('gallery-grid');
     const emptyState = document.getElementById('empty-state');
     const countElement = document.getElementById('photo-count');
@@ -483,95 +416,30 @@
       notice.className = 'notice' + (type ? ' ' + type : '');
     }
 
-    function updateCount() {
-      currentCount = records.size;
-      countElement.textContent = currentCount + (currentCount === 1 ? ' fotografia' : ' fotografias');
-      emptyState.classList.toggle('hidden', currentCount > 0);
-    }
-
-    function formatDate(isoDate) {
+    function formatDate(date) {
       return new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
         month: 'short',
         year: 'numeric'
-      }).format(new Date(isoDate)).replace('.', '');
+      }).format(date).replace('.', '');
     }
 
-    function angleFor(index) {
-      const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2, 2.4, -1.8];
-      return angles[index % angles.length];
-    }
+    function addCardToGrid(author, previewSrc) {
+      const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
+      const card = fragment.querySelector('article');
+      
+      const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
+      card.style.transform = `rotate(${angles[photoCount % angles.length]}deg)`;
+      
+      card.querySelector('.dynamic-author').textContent = author;
+      card.querySelector('.dynamic-date').textContent = formatDate(new Date());
+      card.querySelector('.uploaded-preview').src = previewSrc;
 
-    function createOrUpdateCard(record, index) {
-      let card = grid.querySelector('[data-record-id="' + record.__backendId + '"]');
-
-      if (!card) {
-        const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
-        card = fragment.querySelector('article');
-        card.dataset.recordId = record.__backendId;
-        card.style.transform = 'rotate(' + angleFor(index) + 'deg)';
-        grid.appendChild(fragment);
-        card = grid.querySelector('[data-record-id="' + record.__backendId + '"]');
-      }
-
-      card.querySelector('.dynamic-author').textContent = record.author_name;
-      card.querySelector('.dynamic-date').textContent = formatDate(record.created_at);
-
-      const image = card.querySelector('.uploaded-preview');
-      const unavailable = card.querySelector('.photo-unavailable');
-      const previewUrl = activePreviewUrls.get(record.__backendId);
-
-      if (previewUrl) {
-        image.src = previewUrl;
-        image.alt = 'Fotografia enviada por ' + record.author_name;
-        image.classList.remove('hidden');
-        unavailable.classList.add('hidden');
-      } else {
-        image.removeAttribute('src');
-        image.removeAttribute('alt');
-        image.classList.add('hidden');
-        unavailable.classList.remove('hidden');
-      }
-    }
-
-    function renderRecords(data) {
-      const incoming = new Set();
-
-      data
-        .slice()
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .forEach((record, index) => {
-          incoming.add(record.__backendId);
-          records.set(record.__backendId, record);
-          createOrUpdateCard(record, index);
-        });
-
-      [...grid.children].forEach((card) => {
-        if (!incoming.has(card.dataset.recordId)) {
-          const activeUrl = activePreviewUrls.get(card.dataset.recordId);
-          if (activeUrl) URL.revokeObjectURL(activeUrl);
-          activePreviewUrls.delete(card.dataset.recordId);
-          records.delete(card.dataset.recordId);
-          card.remove();
-        }
-      });
-
-      updateCount();
-    }
-
-    const dataHandler = {
-      onDataChanged(data) {
-        renderRecords(data);
-      }
-    };
-
-    async function initializeSheet() {
-      const result = await window.dataSdk.init(dataHandler);
-      if (result.isOk) {
-        sdkReady = true;
-      } else {
-        setNotice('Não foi possível conectar o mural neste momento. Tente novamente.', 'error');
-      }
+      grid.prepend(card);
+      
+      photoCount++;
+      countElement.textContent = photoCount + (photoCount === 1 ? ' fotografia' : ' fotografias');
+      emptyState.classList.add('hidden');
     }
 
     fileInput.addEventListener('change', () => {
@@ -580,87 +448,71 @@
       setNotice('', '');
     });
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
       const author = authorInput.value.trim();
       const file = fileInput.files[0];
 
       if (!author) {
-        setNotice('Informe o nome da pessoa autora da fotografia.', 'error');
+        setNotice('Informe seu nome antes de enviar.', 'error');
         authorInput.focus();
         return;
       }
 
       if (!file) {
-        setNotice('Selecione uma fotografia para publicar.', 'error');
-        fileInput.focus();
+        setNotice('Selecione uma imagem para enviar.', 'error');
         return;
       }
 
       if (!file.type.startsWith('image/')) {
-        setNotice('Escolha um arquivo de imagem válido.', 'error');
+        setNotice('Por favor, selecione um arquivo de imagem válido.', 'error');
         return;
       }
 
-      if (!sdkReady) {
-        setNotice('O mural ainda está sendo preparado. Tente novamente em instantes.', 'error');
-        return;
-      }
+      setNotice('Enviando imagem para o Drive...', '');
+      submitBtn.disabled = true;
 
-      if (records.size >= 999) {
-        setNotice('O mural chegou ao limite de 999 fotografias. Remova uma entrada antes de adicionar outra.', 'error');
-        return;
-      }
+      const reader = new FileReader();
+      reader.onload = function() {
+        // Salva uma prévia local no mural
+        const localPreview = reader.result;
 
-      submitButton.disabled = true;
-      setNotice('Colando sua fotografia no mural...', '');
-
-      const createdAt = new Date().toISOString();
-      const previewUrl = URL.createObjectURL(file);
-      const record = {
-        author_name: author,
-        image_url: file.name,
-        created_at: createdAt
-      };
-
-      const result = await window.dataSdk.create(record);
-
-      if (result.isOk) {
-        const temporaryRecord = {
-          __backendId: 'local-' + Date.now(),
-          ...record
+        const payload = {
+          fileName: `${author} - ${file.name}`,
+          mimeType: file.type,
+          fileData: reader.result
         };
 
-        activePreviewUrls.set(temporaryRecord.__backendId, previewUrl);
-        records.set(temporaryRecord.__backendId, temporaryRecord);
-        createOrUpdateCard(temporaryRecord, records.size - 1);
-        updateCount();
-
-        form.reset();
-        fileName.textContent = 'Selecionar uma imagem';
-        setNotice('Fotografia publicada no mural!', 'success');
-
-        setTimeout(() => {
-          const temporaryCard = grid.querySelector('[data-record-id="' + temporaryRecord.__backendId + '"]');
-          if (temporaryCard && records.has(temporaryRecord.__backendId)) {
-            temporaryCard.remove();
-            records.delete(temporaryRecord.__backendId);
-            activePreviewUrls.delete(temporaryRecord.__backendId);
-            updateCount();
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            setNotice('✓ Fotografia enviada e salva no Drive com sucesso!', 'success');
+            addCardToGrid(author, localPreview);
+            form.reset();
+            fileName.textContent = 'Selecionar uma imagem';
+          } else {
+            setNotice('Erro no Drive: ' + data.message, 'error');
           }
-        }, 12000);
-      } else {
-        URL.revokeObjectURL(previewUrl);
-        setNotice('Não foi possível publicar a fotografia. Tente novamente.', 'error');
-      }
+        })
+        .catch(err => {
+          setNotice('Erro ao enviar o arquivo. Verifique a URL do Web App.', 'error');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          lucide.createIcons();
+        });
+      };
 
-      submitButton.disabled = false;
+      reader.readAsDataURL(file);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      initializeSheet();
     });
   </script>
  </body>
