@@ -400,120 +400,154 @@
     // ⚠️ SUBSTITUA COM A SUA URL GERADA NO GOOGLE APPS SCRIPT (/exec)
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYufsKTpSabdM_F9CaBp3OjjSg6Ltypc9gqjuu7IS6tCjoRYOK5PAbE54zQI8Bnvjz/exec";
 
-    let photoCount = 0;
-    const form = document.getElementById('photo-form');
-    const authorInput = document.getElementById('author-name');
-    const fileInput = document.getElementById('photo-file');
-    const fileName = document.getElementById('file-name');
-    const notice = document.getElementById('form-notice');
-    const submitBtn = document.getElementById('submit-btn');
-    const grid = document.getElementById('gallery-grid');
-    const emptyState = document.getElementById('empty-state');
-    const countElement = document.getElementById('photo-count');
+   let photoCount = 0;
+  const form = document.getElementById('photo-form');
+  const authorInput = document.getElementById('author-name');
+  const fileInput = document.getElementById('photo-file');
+  const fileName = document.getElementById('file-name');
+  const notice = document.getElementById('form-notice');
+  const submitBtn = document.getElementById('submit-btn');
+  const grid = document.getElementById('gallery-grid');
+  const emptyState = document.getElementById('empty-state');
+  const countElement = document.getElementById('photo-count');
 
-    function setNotice(message, type) {
-      notice.textContent = message;
-      notice.className = 'notice' + (type ? ' ' + type : '');
-    }
+  function setNotice(message, type) {
+    notice.textContent = message;
+    notice.className = 'notice' + (type ? ' ' + type : '');
+  }
 
-    function formatDate(date) {
-      return new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      }).format(date).replace('.', '');
-    }
+  function formatDate(date) {
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).format(new Date(date)).replace('.', '');
+  }
 
-    function addCardToGrid(author, previewSrc) {
-      const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
-      const card = fragment.querySelector('article');
-      
-      const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
-      card.style.transform = `rotate(${angles[photoCount % angles.length]}deg)`;
-      
-      card.querySelector('.dynamic-author').textContent = author;
-      card.querySelector('.dynamic-date').textContent = formatDate(new Date());
-      card.querySelector('.uploaded-preview').src = previewSrc;
+  function addCardToGrid(author, imgSrc, dateStr = new Date(), prepend = false) {
+    const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
+    const card = fragment.querySelector('article');
+    
+    const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
+    card.style.transform = `rotate(${angles[photoCount % angles.length]}deg)`;
+    
+    card.querySelector('.dynamic-author').textContent = author;
+    card.querySelector('.dynamic-date').textContent = formatDate(dateStr);
+    card.querySelector('.uploaded-preview').src = imgSrc;
 
+    if (prepend) {
       grid.prepend(card);
-      
-      photoCount++;
-      countElement.textContent = photoCount + (photoCount === 1 ? ' fotografia' : ' fotografias');
-      emptyState.classList.add('hidden');
+    } else {
+      grid.appendChild(card);
+    }
+    
+    photoCount++;
+    countElement.textContent = photoCount + (photoCount === 1 ? ' fotografia' : ' fotografias');
+    emptyState.classList.add('hidden');
+  }
+
+  // Carrega todo o acervo existente na pasta do Drive ao abrir o site
+  function loadGallery() {
+    emptyState.querySelector('h3').textContent = "Carregando acervo do mural...";
+    emptyState.querySelector('p').textContent = "Buscando fotos no Google Drive...";
+
+    fetch(WEB_APP_URL)
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === "success") {
+          grid.innerHTML = "";
+          photoCount = 0;
+
+          if (res.data.length === 0) {
+            emptyState.querySelector('h3').textContent = "Nenhum envio registrado ainda";
+            emptyState.querySelector('p').textContent = "Seja o primeiro a enviar uma fotografia acima!";
+            emptyState.classList.remove('hidden');
+            countElement.textContent = "0 fotografias";
+            return;
+          }
+
+          res.data.forEach(item => {
+            addCardToGrid(item.author, item.url, item.date, false);
+          });
+        } else {
+          setNotice("Aviso: não foi possível carregar as fotos anteriores.", "error");
+        }
+      })
+      .catch(err => {
+        emptyState.querySelector('h3').textContent = "Mural pronto para envios";
+        emptyState.querySelector('p').textContent = "Envie uma foto acima para inaugurar a galeria!";
+      });
+  }
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    fileName.textContent = file ? file.name : 'Selecionar uma imagem';
+    setNotice('', '');
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const author = authorInput.value.trim();
+    const file = fileInput.files[0];
+
+    if (!author) {
+      setNotice('Informe seu nome antes de enviar.', 'error');
+      authorInput.focus();
+      return;
     }
 
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      fileName.textContent = file ? file.name : 'Selecionar uma imagem';
-      setNotice('', '');
-    });
+    if (!file) {
+      setNotice('Selecione uma imagem para enviar.', 'error');
+      return;
+    }
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+    if (!file.type.startsWith('image/')) {
+      setNotice('Por favor, selecione um arquivo de imagem válido.', 'error');
+      return;
+    }
 
-      const author = authorInput.value.trim();
-      const file = fileInput.files[0];
+    setNotice('Enviando fotografia para o mural...', '');
+    submitBtn.disabled = true;
 
-      if (!author) {
-        setNotice('Informe seu nome antes de enviar.', 'error');
-        authorInput.focus();
-        return;
-      }
-
-      if (!file) {
-        setNotice('Selecione uma imagem para enviar.', 'error');
-        return;
-      }
-
-      if (!file.type.startsWith('image/')) {
-        setNotice('Por favor, selecione um arquivo de imagem válido.', 'error');
-        return;
-      }
-
-      setNotice('Enviando imagem para o Drive...', '');
-      submitBtn.disabled = true;
-
-      const reader = new FileReader();
-      reader.onload = function() {
-        // Salva uma prévia local no mural
-        const localPreview = reader.result;
-
-        const payload = {
-          fileName: `${author} - ${file.name}`,
-          mimeType: file.type,
-          fileData: reader.result
-        };
-
-        fetch(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === "success") {
-            setNotice('✓ Fotografia enviada e salva no Drive com sucesso!', 'success');
-            addCardToGrid(author, localPreview);
-            form.reset();
-            fileName.textContent = 'Selecionar uma imagem';
-          } else {
-            setNotice('Erro no Drive: ' + data.message, 'error');
-          }
-        })
-        .catch(err => {
-          setNotice('Erro ao enviar o arquivo. Verifique a URL do Web App.', 'error');
-        })
-        .finally(() => {
-          submitBtn.disabled = false;
-          lucide.createIcons();
-        });
+    const reader = new FileReader();
+    reader.onload = function() {
+      const payload = {
+        fileName: `${author} - ${file.name}`,
+        mimeType: file.type,
+        fileData: reader.result
       };
 
-      reader.readAsDataURL(file);
-    });
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          setNotice('✓ Fotografia salva no mural com sucesso!', 'success');
+          // Insere imediatamente no início da galeria
+          addCardToGrid(author, data.url, new Date(), true);
+          form.reset();
+          fileName.textContent = 'Selecionar uma imagem';
+        } else {
+          setNotice('Erro no Drive: ' + data.message, 'error');
+        }
+      })
+      .catch(err => {
+        setNotice('Erro na conexão com o Drive.', 'error');
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        lucide.createIcons();
+      });
+    };
 
-    document.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-    });
-  </script>
- </body>
-</html>
+    reader.readAsDataURL(file);
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    lucide.createIcons();
+    loadGallery();
+  });
+</script>
