@@ -371,7 +371,7 @@
       <div id="filter-bar" class="mb-8 flex flex-wrap gap-2">
         <button class="filter-btn active px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-[#0e1217] text-white" data-cat="all">Todas</button>
         <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Experimentação com Luzes">Luzes</button>
-        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotorgrafia de Produto">Produto</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotografia de Produto">Produto</button>
         <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotomontagem">Fotomontagem</button>
             </div>
 
@@ -395,22 +395,30 @@
 
   <!-- Template do Card de Foto -->
   <template id="photo-card-template">
-   <article class="poster">
-    <div class="photo-frame">
-     <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
-    </div>
-    <div class="author-signature dynamic-author"></div>
-    <div class="photo-date dynamic-date"></div>
-   </article>
-  </template>
+ <article class="poster">
+  <div class="photo-frame">
+   <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
+  </div>
+  <!-- Tag da Categoria -->
+  <span class="dynamic-category inline-block mt-2 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-[#d3e3ec] text-[#0e1217] border border-[#0e1217]"></span>
+  <div class="author-signature dynamic-author"></div>
+  <div class="photo-date dynamic-date"></div>
+ </article>
+</template>
 
   <script>
     // ⚠️ SUBSTITUA COM A SUA URL GERADA NO GOOGLE APPS SCRIPT (/exec)
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYufsKTpSabdM_F9CaBp3OjjSg6Ltypc9gqjuu7IS6tCjoRYOK5PAbE54zQI8Bnvjz/exec";
 
-   let photoCount = 0;
+  <script>
+  const WEB_APP_URL = "SUA_URL_DO_WEB_APP_AQUI";
+
+  let allPhotos = [];
+  let currentFilter = 'all';
+
   const form = document.getElementById('photo-form');
   const authorInput = document.getElementById('author-name');
+  const categoryInput = document.getElementById('author-category');
   const fileInput = document.getElementById('photo-file');
   const fileName = document.getElementById('file-name');
   const notice = document.getElementById('form-notice');
@@ -418,6 +426,7 @@
   const grid = document.getElementById('gallery-grid');
   const emptyState = document.getElementById('empty-state');
   const countElement = document.getElementById('photo-count');
+  const filterBtns = document.querySelectorAll('.filter-btn');
 
   function setNotice(message, type) {
     notice.textContent = message;
@@ -432,29 +441,46 @@
     }).format(new Date(date)).replace('.', '');
   }
 
-  function addCardToGrid(author, imgSrc, dateStr = new Date(), prepend = false) {
-    const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
-    const card = fragment.querySelector('article');
-    
-    const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
-    card.style.transform = `rotate(${angles[photoCount % angles.length]}deg)`;
-    
-    card.querySelector('.dynamic-author').textContent = author;
-    card.querySelector('.dynamic-date').textContent = formatDate(dateStr);
-    card.querySelector('.uploaded-preview').src = imgSrc;
+  function renderGrid() {
+    grid.innerHTML = "";
+    const filtered = currentFilter === 'all' 
+      ? allPhotos 
+      : allPhotos.filter(p => p.category.toLowerCase() === currentFilter.toLowerCase());
 
-    if (prepend) {
-      grid.prepend(card);
-    } else {
+    countElement.textContent = `${filtered.length} ${filtered.length === 1 ? 'fotografia' : 'fotografias'}`;
+    emptyState.classList.toggle('hidden', filtered.length > 0);
+
+    const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
+
+    filtered.forEach((item, index) => {
+      const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
+      const card = fragment.querySelector('article');
+      
+      card.style.transform = `rotate(${angles[index % angles.length]}deg)`;
+      card.querySelector('.dynamic-category').textContent = item.category;
+      card.querySelector('.dynamic-author').textContent = item.author;
+      card.querySelector('.dynamic-date').textContent = formatDate(item.date);
+      card.querySelector('.uploaded-preview').src = item.url;
+
       grid.appendChild(card);
-    }
-    
-    photoCount++;
-    countElement.textContent = photoCount + (photoCount === 1 ? ' fotografia' : ' fotografias');
-    emptyState.classList.add('hidden');
+    });
   }
 
-  // Carrega todo o acervo existente na pasta do Drive ao abrir o site
+  // Configuração dos botões de filtro
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('bg-[#0e1217]', 'text-white');
+        b.classList.add('bg-white', 'text-[#0e1217]');
+      });
+      btn.classList.remove('bg-white', 'text-[#0e1217]');
+      btn.classList.add('bg-[#0e1217]', 'text-white');
+
+      currentFilter = btn.getAttribute('data-cat');
+      renderGrid();
+    });
+  });
+
   function loadGallery() {
     emptyState.querySelector('h3').textContent = "Carregando acervo do mural...";
     emptyState.querySelector('p').textContent = "Buscando fotos no Google Drive...";
@@ -463,25 +489,20 @@
       .then(res => res.json())
       .then(res => {
         if (res.status === "success") {
-          grid.innerHTML = "";
-          photoCount = 0;
-
-          if (res.data.length === 0) {
+          allPhotos = res.data;
+          if (allPhotos.length === 0) {
             emptyState.querySelector('h3').textContent = "Nenhum envio registrado ainda";
             emptyState.querySelector('p').textContent = "Seja o primeiro a enviar uma fotografia acima!";
             emptyState.classList.remove('hidden');
             countElement.textContent = "0 fotografias";
             return;
           }
-
-          res.data.forEach(item => {
-            addCardToGrid(item.author, item.url, item.date, false);
-          });
+          renderGrid();
         } else {
           setNotice("Aviso: não foi possível carregar as fotos anteriores.", "error");
         }
       })
-      .catch(err => {
+      .catch(() => {
         emptyState.querySelector('h3').textContent = "Mural pronto para envios";
         emptyState.querySelector('p').textContent = "Envie uma foto acima para inaugurar a galeria!";
       });
@@ -497,6 +518,7 @@
     e.preventDefault();
 
     const author = authorInput.value.trim();
+    const category = categoryInput.value;
     const file = fileInput.files[0];
 
     if (!author) {
@@ -510,18 +532,14 @@
       return;
     }
 
-    if (!file.type.startsWith('image/')) {
-      setNotice('Por favor, selecione um arquivo de imagem válido.', 'error');
-      return;
-    }
-
     setNotice('Enviando fotografia para o mural...', '');
     submitBtn.disabled = true;
 
     const reader = new FileReader();
     reader.onload = function() {
       const payload = {
-        fileName: `${author} - ${file.name}`,
+        // Nome padronizado salvo no Drive: [Categoria] - Autor - NomeDoArquivo.ext
+        fileName: `[${category}] - ${author} - ${file.name}`,
         mimeType: file.type,
         fileData: reader.result
       };
@@ -534,15 +552,24 @@
       .then(data => {
         if (data.status === "success") {
           setNotice('✓ Fotografia salva no mural com sucesso!', 'success');
-          // Insere imediatamente no início da galeria
-          addCardToGrid(author, data.url, new Date(), true);
+          
+          // Adiciona localmente ao array e renderiza
+          allPhotos.unshift({
+            id: data.id,
+            category: category,
+            author: author,
+            date: new Date().toISOString(),
+            url: data.url
+          });
+
+          renderGrid();
           form.reset();
           fileName.textContent = 'Selecionar uma imagem';
         } else {
           setNotice('Erro no Drive: ' + data.message, 'error');
         }
       })
-      .catch(err => {
+      .catch(() => {
         setNotice('Erro na conexão com o Drive.', 'error');
       })
       .finally(() => {
