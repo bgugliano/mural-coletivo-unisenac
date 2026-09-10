@@ -385,13 +385,14 @@
        <div class="wall-divider mb-2 min-w-24 flex-1"></div>
       </div>
       
-      <!-- Barra de Filtros por Categoria -->
+      <!-- Barra de Filtros por Categoria (Sincronizada com o Select) -->
       <div id="filter-bar" class="mb-8 flex flex-wrap gap-2">
         <button class="filter-btn active px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-[#0e1217] text-white" data-cat="all">Todas</button>
         <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Experimentação com Luzes">Luzes</button>
-        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotografia de Produto">Produto</button>
-        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotomontagem">Fotomontagem</button>
-            </div>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Stop Motion">Stop Motion</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Enquadramento & Composição">Enquadramento</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Retrato & Identidade">Retrato</button>
+      </div>
 
       <div id="empty-state" class="mx-auto flex max-w-md flex-col items-center border-2 border-dashed border-[#0e1217] bg-[#fefefe]/75 px-7 py-12 text-center">
        <div class="empty-illustration mb-5">
@@ -413,31 +414,27 @@
 
   <!-- Template do Card de Foto -->
   <template id="photo-card-template">
- <article class="poster">
-  <div class="photo-frame">
-   <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
-  </div>
-  <!-- Tag da Categoria -->
-  <span class="dynamic-category inline-block mt-2 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-[#d3e3ec] text-[#0e1217] border border-[#0e1217]"></span>
-  <div class="author-signature dynamic-author"></div>
-  <div class="photo-date dynamic-date"></div>
- </article>
-</template>
+   <article class="poster">
+    <div class="photo-frame">
+     <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
+    </div>
+    <!-- Tag da Categoria -->
+    <span class="dynamic-category inline-block mt-2 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-[#d3e3ec] text-[#0e1217] border border-[#0e1217]"></span>
+    <div class="author-signature dynamic-author"></div>
+    <div class="photo-date dynamic-date"></div>
+   </article>
+  </template>
 
   <script>
-    // ⚠️ SUBSTITUA COM A SUA URL GERADA NO GOOGLE APPS SCRIPT (/exec)
+    // Sua URL real do Apps Script configurada
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYufsKTpSabdM_F9CaBp3OjjSg6Ltypc9gqjuu7IS6tCjoRYOK5PAbE54zQI8Bnvjz/exec";
-
-  <script>
-    // ⚠️ COLOQUE A SUA URL COMPLETA DO WEB APP AQUI (com final /exec)
-    const WEB_APP_URL = "https://script.google.com/macros/s/.../exec";
 
     let allPhotos = [];
     let currentFilter = 'all';
 
     const form = document.getElementById('photo-form');
     const authorInput = document.getElementById('author-name');
-    const categoryInput = document.getElementById('author-category'); // Campo de seleção do aluno
+    const categoryInput = document.getElementById('author-category');
     const fileInput = document.getElementById('photo-file');
     const fileName = document.getElementById('file-name');
     const notice = document.getElementById('form-notice');
@@ -488,7 +485,6 @@
       });
     }
 
-    // Ações dos botões de filtro
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => {
@@ -503,7 +499,6 @@
       });
     });
 
-    // Busca as fotos salvas na inicialização
     function loadGallery() {
       emptyState.querySelector('h3').textContent = "Carregando acervo do mural...";
       emptyState.querySelector('p').textContent = "Buscando fotos no Google Drive...";
@@ -537,7 +532,6 @@
       setNotice('', '');
     });
 
-    // Envio do formulário com categoria
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -561,7 +555,6 @@
 
       const reader = new FileReader();
       reader.onload = function() {
-        // Formato salvo no Drive: [Categoria] - Autor - NomeDoArquivo.ext
         const payload = {
           fileName: `[${category}] - ${author} - ${file.name}`,
           mimeType: file.type,
@@ -577,7 +570,6 @@
           if (data.status === "success") {
             setNotice('✓ Fotografia salva no mural com sucesso!', 'success');
             
-            // Adiciona na galeria imediatamente
             allPhotos.unshift({
               id: data.id,
               category: category,
@@ -610,3 +602,5 @@
       loadGallery();
     });
   </script>
+ </body>
+</html>
