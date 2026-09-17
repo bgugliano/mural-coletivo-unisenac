@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mural Coletivo ⏐ Produção Multimídia ⏐ UniSenac Pelotas </title>
+  <title>Mural Coletivo ⏐ Produção Multimídia ⏐ UniSenac Pelotas</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
@@ -72,6 +72,536 @@
     .camera-doodle-three { bottom: 7rem; left: 9%; width: 68px; transform: rotate(-5deg); opacity: .16; }
 
     .mark-one {
+      width: 13rem;
+      height: 2.2rem;
+      top: 5rem;
+      right: -3rem;
+      background: var(--red);
+      transform: rotate(-16deg);
+      opacity: .9;
+    }
+
+    .mark-two {
+      width: 11rem;
+      height: 1.3rem;
+      bottom: 7rem;
+      left: -3rem;
+      background: var(--violet);
+      transform: rotate(18deg);
+      opacity: .88;
+    }
+
+    .urban-heading {
+      font-family: "Space Mono", monospace;
+      letter-spacing: -.07em;
+      text-transform: uppercase;
+    }
+
+    .top-rule {
+      height: 8px;
+      background: linear-gradient(to right, #cb0433 0 32%, #986541 32% 48%, #65079c 48% 70%, #0e1217 70% 100%);
+    }
+
+    .upload-panel {
+      position: relative;
+      border: 2px solid var(--ink);
+      box-shadow: 9px 9px 0 var(--ink);
+    }
+
+    .sticker {
+      position: absolute;
+      top: -15px;
+      right: 7%;
+      width: 80px;
+      height: 29px;
+      opacity: .88;
+      background: repeating-linear-gradient(135deg, #fefefe 0 7px, #d3e3ec 7px 13px);
+      border: 1px solid rgba(14, 18, 23, .25);
+      transform: rotate(4deg);
+    }
+
+    .input-field {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 0;
+      outline: none;
+      color: var(--ink);
+      background: var(--paper);
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .input-field:focus {
+      box-shadow: 4px 4px 0 var(--violet);
+      transform: translate(-1px, -1px);
+    }
+
+    .file-picker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 8px;
+      cursor: pointer;
+      border: 2px dashed var(--ink);
+      background: rgba(254, 254, 254, .72);
+      transition: background .2s, transform .2s;
+    }
+
+    .file-picker:hover {
+      background: #fefefe;
+      transform: translateY(-2px);
+    }
+
+    .file-picker input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    .submit-button {
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      background: #cb0433;
+      color: #ffffff;
+      transition: transform .18s, box-shadow .18s, filter .18s;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      box-shadow: 1px 1px 0 var(--ink);
+      transform: translate(3px, 3px);
+      filter: saturate(1.12);
+    }
+
+    .submit-button:disabled {
+      cursor: wait;
+      opacity: .65;
+    }
+
+    .wall-divider {
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--ink) 0 17px, transparent 17px 24px);
+      opacity: .85;
+    }
+
+    .poster {
+      position: relative;
+      padding: 10px 10px 16px;
+      border: 2px solid var(--ink);
+      background: var(--paper);
+      box-shadow: 7px 8px 0 rgba(14, 18, 23, .9);
+      transition: transform .25s ease, box-shadow .25s ease;
+      animation: poster-in .52s both;
+    }
+
+    .poster::before {
+      position: absolute;
+      top: -7px;
+      left: 18%;
+      width: 64%;
+      height: 13px;
+      content: "";
+      background: rgba(211, 227, 236, .9);
+      border: 1px solid rgba(14, 18, 23, .16);
+      transform: rotate(-2deg);
+    }
+
+    .poster:hover {
+      z-index: 2;
+      box-shadow: 11px 13px 0 rgba(14, 18, 23, .92);
+      transform: rotate(0deg) translateY(-7px) !important;
+    }
+
+    .photo-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / .92;
+      background: linear-gradient(135deg, #65079c, #cb0433);
+    }
+
+    .photo-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .author-signature {
+      min-height: 34px;
+      padding: 10px 3px 0;
+      color: var(--red);
+      font-family: "Space Mono", monospace;
+      font-size: .86rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .photo-date {
+      padding: 3px 3px 0;
+      color: var(--rust);
+      font-family: "Space Mono", monospace;
+      font-size: .62rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .empty-illustration {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      color: var(--red);
+      background: var(--paper);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .notice {
+      min-height: 24px;
+      font-size: .9rem;
+      line-height: 1.4;
+      font-weight: bold;
+    }
+
+    .notice.error { color: #cb0433; }
+    .notice.success { color: #28a745; }
+
+    @keyframes poster-in {
+      from { opacity: 0; transform: translateY(22px) rotate(0deg); }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 640px) {
+      .poster { padding: 8px 8px 13px; }
+      .mark-one { top: 8rem; }
+    }
+  </style>
+ </head>
+ <body>
+  <div class="mural-shell">
+   <div class="street-grid"></div>
+   <div class="paint-mark mark-one"></div>
+   <div class="paint-mark mark-two"></div>
+   
+   <div class="top-rule"></div>
+   
+   <header class="relative z-10 w-full px-5 pt-10 sm:px-8 lg:px-12">
+    <div class="mx-auto max-w-6xl">
+     <div class="flex flex-col gap-5 border-b-2 border-[#0e1217] pb-8 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-4xl">
+       <div class="mb-4 inline-flex items-center gap-2 px-3 py-1 text-xs font-bold uppercase tracking-[.14em] bg-white border border-[#0e1217]">
+        <i data-lucide="aperture" class="h-4 w-4"></i> <span>UNISENAC PELOTAS</span>
+       </div>
+       <h1 class="urban-heading text-3xl sm:text-5xl font-bold">Mural Coletivo do Produção Multimídia</h1>
+       <p class="mt-4 max-w-3xl leading-relaxed text-gray-700">Envie sua fotografia para compor o mural.</p>
+      </div>
+      <div class="flex items-center gap-3 pb-1 font-mono text-xs font-bold uppercase tracking-wider text-[#0e1217]">
+       <i data-lucide="images" class="h-5 w-5 text-[#cb0433]"></i> <span id="photo-count" aria-live="polite">0 fotografias</span>
+      </div>
+     </div>
+    </div>
+   </header>
+
+   <main class="relative z-10 w-full px-5 pb-16 pt-10 sm:px-8 lg:px-12">
+    <div class="mx-auto max-w-6xl">
+     
+     <!-- Painel de Upload -->
+     <section class="upload-panel mx-auto max-w-4xl p-6 sm:p-8 bg-white" aria-labelledby="upload-title">
+      <span class="sticker" aria-hidden="true"></span>
+      <div class="grid gap-8 md:grid-cols-[1fr_1.3fr] lg:gap-12 items-start">
+       
+       <!-- Coluna da Esquerda: Textos -->
+       <div>
+        <p class="mb-3 font-mono text-xs font-bold uppercase tracking-[.16em] text-[#cb0433]">BOAS-VINDAS AO NOSSO MURAL</p>
+        <h2 id="upload-title" class="urban-heading text-2xl font-bold">Envia o teu trabalho :)</h2>
+        <p class="mt-4 leading-relaxed text-sm text-gray-600">
+          Preencha seu nome (ou do grupo), selecione a categoria e a foto para expor no nosso mural coletivo. Atividade referente à unidade curricular Imagem Digital II (2026/2) do 
+          <a href="https://www.senacrs.com.br/cursograduacao/curso-superior-de-tecnologia-em-producao-multimidia/7efb7c83-7096-40fe-bec5-5e28a5762d2b/8d0ded17-fd8e-4d8d-8b1c-cacbf8c65a36" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="font-semibold text-[#cb0433] underline decoration-[#cb0433]/40 underline-offset-4 transition-colors hover:text-[#0e1217] hover:decoration-[#0e1217]">
+            Curso Superior de Tecnologia em Produção Multimídia do UniSenac Pelotas
+          </a>.
+        </p>
+       </div>
+       
+       <!-- Coluna da Direita: Formulário -->
+       <form id="photo-form" novalidate>
+        <div class="grid gap-4">
+         
+         <!-- 1. Nome -->
+         <div>
+          <label class="mb-2 block text-sm font-semibold" for="author-name">Nome do/a Estudante:</label> 
+          <input id="author-name" class="input-field px-4 py-3" type="text" maxlength="80" placeholder="Ex: Renan Espírito Santo" required>
+         </div>
+
+         <!-- 2. Categoria (Sincronizado com os botões de filtro) -->
+         <div>
+          <label class="mb-2 block text-sm font-semibold" for="author-category">Temática da Aula:</label> 
+          <select id="author-category" class="input-field px-4 py-3 cursor-pointer bg-white" required>
+            <option value="Experimentação com luzes/velocidade">Experimentação com luzes/velocidade</option>
+            <option value="Light painting">Light painting</option>
+            <option value="Fotomontagem">Fotomontagem</option>
+            <option value="Streetstyle">Streetstyle</option>
+          </select>
+         </div>
+
+         <!-- 3. Arquivo -->
+         <div>
+          <span class="mb-2 block text-sm font-semibold">Fotografia:</span> 
+          <label class="file-picker" for="photo-file"> 
+            <input id="photo-file" type="file" accept="image/*" required> 
+            <span class="grid h-9 w-9 shrink-0 place-items-center bg-[#cb0433] text-[#fefefe]"> 
+              <i data-lucide="upload-cloud" class="h-5 w-5"></i> 
+            </span> 
+            <span id="file-name" class="truncate text-sm text-[#0e1217]/65">Selecionar uma imagem</span> 
+          </label>
+         </div>
+
+         <!-- Botão Enviar -->
+         <button id="submit-btn" class="submit-button mt-1 inline-flex items-center justify-center gap-2 px-5 py-3 font-bold" type="submit"> 
+           <i data-lucide="plus-circle" class="h-5 w-5"></i> <span>Enviar para o Mural</span> 
+         </button>
+
+         <p id="form-notice" class="notice" role="status" aria-live="polite"></p>
+        </div>
+       </form>
+
+      </div>
+     </section>
+
+     <!-- Seção da Galeria -->
+     <section class="mt-16" aria-labelledby="gallery-title">
+      <div class="mb-7 flex flex-wrap items-end gap-4">
+       <div>
+        <p class="mb-2 font-mono text-xs font-bold uppercase tracking-[.16em] text-[#65079c]">Exibição</p>
+        <h2 id="gallery-title" class="urban-heading text-2xl font-bold">Mural de Fotos</h2>
+       </div>
+       <div class="wall-divider mb-2 min-w-24 flex-1"></div>
+      </div>
+      
+      <!-- Barra de Filtros -->
+      <div id="filter-bar" class="mb-8 flex flex-wrap gap-2">
+        <button class="filter-btn active px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-[#0e1217] text-white" data-cat="all">Todas</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Experimentação com luzes/velocidade">Luzes/velocidade</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Light painting">Light painting</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Fotomontagem">Fotomontagem</button>
+        <button class="filter-btn px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#0e1217] bg-white text-[#0e1217]" data-cat="Streetstyle">Streetstyle</button>
+      </div>
+
+      <div id="empty-state" class="mx-auto flex max-w-md flex-col items-center border-2 border-dashed border-[#0e1217] bg-[#fefefe]/75 px-7 py-12 text-center">
+       <div class="empty-illustration mb-5">
+        <i data-lucide="camera" class="h-8 w-8"></i>
+       </div>
+       <h3 class="font-bold">Nenhum envio nesta sessão ainda</h3>
+       <p class="mt-2 text-sm text-gray-600">Seja o primeiro a enviar uma fotografia acima!</p>
+      </div>
+      
+      <div id="gallery-grid" class="grid grid-cols-1 gap-x-7 gap-y-11 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+     </section>
+
+    </div>
+   </main>
+
+   <footer class="relative z-10 w-full border-t-2 border-[#0e1217] px-5 py-6 sm:px-8 lg:px-12 bg-white">
+    <p class="mx-auto max-w-6xl text-center font-mono text-xs tracking-wide">Mural de Trabalhos — Envio Direto</p>
+   </footer>
+  </div>
+
+  <!-- Template do Card de Foto -->
+  <template id="photo-card-template">
+   <article class="poster">
+    <div class="photo-frame">
+     <img class="uploaded-preview" loading="lazy" alt="Foto enviada">
+    </div>
+    <!-- Tag da Categoria -->
+    <span class="dynamic-category inline-block mt-2 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-[#d3e3ec] text-[#0e1217] border border-[#0e1217]"></span>
+    <div class="author-signature dynamic-author"></div>
+    <div class="photo-date dynamic-date"></div>
+   </article>
+  </template>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYufsKTpSabdM_F9CaBp3OjjSg6Ltypc9gqjuu7IS6tCjoRYOK5PAbE54zQI8Bnvjz/exec";
+
+    let allPhotos = [];
+    let currentFilter = 'all';
+
+    const form = document.getElementById('photo-form');
+    const authorInput = document.getElementById('author-name');
+    const categoryInput = document.getElementById('author-category');
+    const fileInput = document.getElementById('photo-file');
+    const fileName = document.getElementById('file-name');
+    const notice = document.getElementById('form-notice');
+    const submitBtn = document.getElementById('submit-btn');
+    const grid = document.getElementById('gallery-grid');
+    const emptyState = document.getElementById('empty-state');
+    const countElement = document.getElementById('photo-count');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    function setNotice(message, type) {
+      notice.textContent = message;
+      notice.className = 'notice' + (type ? ' ' + type : '');
+    }
+
+    function formatDate(date) {
+      return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }).format(new Date(date)).replace('.', '');
+    }
+
+    function renderGrid() {
+      grid.innerHTML = "";
+      const filtered = currentFilter === 'all' 
+        ? allPhotos 
+        : allPhotos.filter(p => p.category.toLowerCase() === currentFilter.toLowerCase());
+
+      countElement.textContent = `${filtered.length} ${filtered.length === 1 ? 'fotografia' : 'fotografias'}`;
+      emptyState.classList.toggle('hidden', filtered.length > 0);
+
+      const angles = [-2.5, 2.1, -1.3, 2.7, 1.2, -2];
+
+      filtered.forEach((item, index) => {
+        const fragment = document.getElementById('photo-card-template').content.cloneNode(true);
+        const card = fragment.querySelector('article');
+        
+        card.style.transform = `rotate(${angles[index % angles.length]}deg)`;
+        
+        const catBadge = card.querySelector('.dynamic-category');
+        if (catBadge) catBadge.textContent = item.category;
+        
+        card.querySelector('.dynamic-author').textContent = item.author;
+        card.querySelector('.dynamic-date').textContent = formatDate(item.date);
+        card.querySelector('.uploaded-preview').src = item.url;
+
+        grid.appendChild(card);
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-[#0e1217]', 'text-white');
+          b.classList.add('bg-white', 'text-[#0e1217]');
+        });
+        btn.classList.remove('bg-white', 'text-[#0e1217]');
+        btn.classList.add('bg-[#0e1217]', 'text-white');
+
+        currentFilter = btn.getAttribute('data-cat');
+        renderGrid();
+      });
+    });
+
+    function loadGallery() {
+      emptyState.querySelector('h3').textContent = "Carregando acervo do mural...";
+      emptyState.querySelector('p').textContent = "Buscando fotos no Google Drive...";
+
+      fetch(WEB_APP_URL)
+        .then(res => res.json())
+        .then(res => {
+          if (res.status === "success") {
+            allPhotos = res.data;
+            if (allPhotos.length === 0) {
+              emptyState.querySelector('h3').textContent = "Nenhum envio registrado ainda";
+              emptyState.querySelector('p').textContent = "Seja o primeiro a enviar uma fotografia acima!";
+              emptyState.classList.remove('hidden');
+              countElement.textContent = "0 fotografias";
+              return;
+            }
+            renderGrid();
+          } else {
+            setNotice("Aviso: não foi possível carregar as fotos anteriores.", "error");
+          }
+        })
+        .catch(() => {
+          emptyState.querySelector('h3').textContent = "Mural pronto para envios";
+          emptyState.querySelector('p').textContent = "Envie uma foto acima para inaugurar a galeria!";
+        });
+    }
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      fileName.textContent = file ? file.name : 'Selecionar uma imagem';
+      setNotice('', '');
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const author = authorInput.value.trim();
+      const category = categoryInput ? categoryInput.value : "Geral";
+      const file = fileInput.files[0];
+
+      if (!author) {
+        setNotice('Informe seu nome antes de enviar.', 'error');
+        authorInput.focus();
+        return;
+      }
+
+      if (!file) {
+        setNotice('Selecione uma imagem para enviar.', 'error');
+        return;
+      }
+
+      setNotice('Enviando fotografia para o mural...', '');
+      submitBtn.disabled = true;
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        const payload = {
+          fileName: `[${category}] - ${author} - ${file.name}`,
+          mimeType: file.type,
+          fileData: reader.result
+        };
+
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            setNotice('✓ Fotografia salva no mural com sucesso!', 'success');
+            
+            allPhotos.unshift({
+              id: data.id,
+              category: category,
+              author: author,
+              date: new Date().toISOString(),
+              url: data.url
+            });
+
+            renderGrid();
+            form.reset();
+            fileName.textContent = 'Selecionar uma imagem';
+          } else {
+            setNotice('Erro no Drive: ' + data.message, 'error');
+          }
+        })
+        .catch(() => {
+          setNotice('Erro na conexão com o Drive.', 'error');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          lucide.createIcons();
+        });
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadGallery();
+    });
+  </script>
+ </body>
+</html>
       width: 13rem;
       height: 2.2rem;
       top: 5rem;
